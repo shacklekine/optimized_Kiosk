@@ -3,10 +3,10 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert, Image, Modal
 import Icon from 'react-native-vector-icons/Ionicons'; 
 // 상품 목록
 const products = [
-  { id: '1', name: '아메리카노', price: 1000, image: require('../../assets/images/americano.png'), description: '신선한 원두로 만든 깔끔한 아메리카노입니다.' },
-  { id: '2', name: '녹차', price: 2000, image: require('../../assets/images/green_tea.png'), description: '상쾌한 맛의 고급 녹차입니다.' },
-  { id: '3', name: '카페라떼', price: 3000, image: require('../../assets/images/latte.png'), description: '부드러운 우유 거품이 일품인 카페라떼입니다.' },
-  { id: '4', name: '딸기 스무디', price: 4000, image: require('../../assets/images/strawberry_smoothie.png'), description: '달콤한 딸기로 만든 시원한 스무디입니다.' },
+  { id: '1', name: '아메리카노', price: 1000, category: '커피', image: require('../../assets/images/americano.png'), description: '신선한 원두로 만든 깔끔한 아메리카노입니다.' },
+  { id: '2', name: '녹차', price: 2000, category: '차', image: require('../../assets/images/green_tea.png'), description: '상쾌한 맛의 고급 녹차입니다.' },
+  { id: '3', name: '카페라떼', price: 3000, category: '커피', image: require('../../assets/images/latte.png'), description: '부드러운 우유 거품이 일품인 카페라떼입니다.' },
+  { id: '4', name: '딸기 스무디', price: 4000, category: '음료', image: require('../../assets/images/strawberry_smoothie.png'), description: '달콤한 딸기로 만든 시원한 스무디입니다.' },
 ];
 
 export default function App() {
@@ -17,7 +17,18 @@ export default function App() {
   const [isPaymentScreen, setIsPaymentScreen] = useState(false); // 결제 화면 상태
   const [selectedProduct, setSelectedProduct] = useState(null); // 선택된 상품 정보
   const [modalVisible, setModalVisible] = useState(false); // 모달 상태
+  const [selectedCategory, setSelectedCategory] = useState('전체'); // 선택된 카테고리 상태
+  
 
+
+
+  const categories = ['전체', '커피', '차', '음료']; // 카테고리 목록
+  const filteredProducts =
+    selectedCategory === '전체'
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
+
+  
   useEffect(() => {
     const timer = setInterval(() => {
       if (timeLeft > 0) {
@@ -164,8 +175,32 @@ export default function App() {
           <Text style={styles.alertText}>해당 Kiosk는 오래 사용될 예정입니다!</Text>
         </View>
       )}
+      {/* 카테고리 탭 */}
+      <View style={styles.categoryContainer}>
+        {categories.map((category) => (
+          <TouchableOpacity
+            key={category}
+            onPress={() => setSelectedCategory(category)}
+            style={[
+              styles.categoryButton,
+              selectedCategory === category && styles.selectedCategoryButton,
+            ]}
+          >
+            <Text
+              style={[
+                styles.categoryText,
+                selectedCategory === category && styles.selectedCategoryText,
+              ]}
+            >
+              {category}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+
       <FlatList
-        data={products}
+        data={filteredProducts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.productList}
@@ -438,4 +473,16 @@ const styles = StyleSheet.create({
   icon: {
     marginBottom: 10,
   },
+  categoryContainer: { flexDirection: 'row', marginBottom: 10 },
+  categoryButton: {
+    padding: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginHorizontal: 5,
+  },
+  selectedCategoryButton: { backgroundColor: '#007bff', borderColor: '#007bff' },
+  categoryText: { fontSize: 14, color: '#333' },
+  selectedCategoryText: { color: '#fff' },
+
 });

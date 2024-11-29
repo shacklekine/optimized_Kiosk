@@ -162,7 +162,7 @@ const VisualImpairOrder = () => {
             alert('카카오페이 결제')
             Speech.speak(`카카오페이 결제를 선택하셨습니다.`, { language: 'ko', rate: 1.0 });
           }} 
-          style={styles.paymentButton2}>
+          style={styles.paymentButtonKakao}>
           <Icon name="logo-google" size={30} color="#fff" style={styles.icon} />
           <Text style={styles.buttonText5}>카카오페이</Text>
         </TouchableOpacity>
@@ -175,7 +175,7 @@ const VisualImpairOrder = () => {
             alert('도움 요청')
             Speech.speak(`도움 요청을 선택하셨습니다. 가까운 직원에게 도움을 요청합니다.`, { language: 'ko', rate: 1.0 });
           }} 
-          style={styles.footerButton}>
+          style={styles.footerButtonhelp}>
           <Icon name="help-circle" size={30} color="#fff" style={styles.icon} />
           <Text style={styles.buttonText5}>도움 요청</Text>
         </TouchableOpacity>
@@ -215,7 +215,7 @@ const VisualImpairOrder = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.addToCartButton}
+        style={styles.addToCartButton2}
         onPress={handleClearCart} // 카트 비우기 버튼 클릭 시 카트 비우기
       >
         <Text style={styles.buttonText}>카트 비우기</Text>
@@ -297,6 +297,14 @@ const styles = StyleSheet.create({
   description: { fontSize: 14, color: '#888', marginTop: 10 },
   addToCartButton: {
     backgroundColor: '#007AFF',
+    padding: 15,
+    margin: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom : 80
+  },
+  addToCartButton2: {
+    backgroundColor: '#4CA450',
     padding: 15,
     margin: 20,
     borderRadius: 8,
@@ -394,6 +402,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
   },
+  footerButtonhelp: {
+    flex: 1,
+    marginHorizontal: 10,
+    padding: 60,
+    borderRadius: 10,
+    backgroundColor: '#FF0000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
   buttonText5: {
     color: '#fff',
     fontSize: 16,
@@ -405,6 +423,16 @@ const styles = StyleSheet.create({
     padding: 50,
     borderRadius: 10,
     backgroundColor: '#4CAF50',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  paymentButtonKakao: {
+    flex: 1,
+    marginHorizontal: 10,
+    padding: 50,
+    borderRadius: 10,
+    backgroundColor: '#FFA500',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
