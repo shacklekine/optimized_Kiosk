@@ -28,18 +28,6 @@ export default function index() {
     </View>
   </View>
     
-
-    
-    /*
-    <View style={{
-        flex : 1
-    }}>
-        <Link href="../login" asChild >
-    
-        <Text>Go to login screen</Text>
-   
-        </Link>
-    </View>*/
   )
 }
 

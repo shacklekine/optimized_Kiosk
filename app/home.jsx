@@ -1,14 +1,31 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet,ToastAndroid, Platform, Alert } from 'react-native';
 import {createStaticNavigation,useNavigation} from '@react-navigation/native';
 import { Link, useRouter } from 'expo-router'
-
-
+import {SignedIn, useAuth, useUser} from '@clerk/clerk-expo'
+ 
 
 export default function InitialScreen() {
   const router = useRouter(); // Router for navigation
-
+  const {user} = useUser();
   
+  const { signOut, isSignedIn } = useAuth();
+  
+  useEffect(() => {
+    if(!isSignedIn) {
+      router.push("/home");
+    }
+  }, [isSignedIn]);
+
+  const handleLogout = async () => {
+    await signOut();
+    if (Platform.OS === 'android') {
+      ToastAndroid.show("로그아웃되었습니다.", ToastAndroid.SHORT);
+    } else {
+      Alert.alert("알림", "로그아웃되었습니다.");
+    }
+    router.push("/login"); // 이동
+  };
 
   return (
     <View style={styles.container}>
@@ -31,6 +48,20 @@ export default function InitialScreen() {
       >
         <Text style={styles.buttonText}>시각장애</Text>
       </TouchableOpacity>
+
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleLogout} // 시각장애 화면으로 이동
+      >
+        <Text style={styles.buttonText}>로그아웃</Text>
+      </TouchableOpacity>
+
+
+
+
+
+
     </View>
   );
 }

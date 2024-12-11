@@ -14,7 +14,7 @@ export default function VisualImpairConfirmEat() {
 
     // 15초 뒤 아무 선택 없이 돌아가도록 타이머 설정
     const newTimer = setTimeout(() => {
-      Speech.speak('시간이 초과되었습니다. 다시 선택해 주세요. 먹고가기는 상단 포장하기는 하단입니다.', { language: 'ko' });
+      Speech.speak('시간이 초과되었습니다. 다시 선택해 주세요. 먹고가기 상단 포장하기 하단입니다.', { language: 'ko' });
       router.back(); // 15초 후 자동으로 뒤로가기
     }, 15000); // 15초
 

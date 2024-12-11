@@ -35,7 +35,7 @@ export default function loginScreen() {
         redirectUrl: Linking.createURL('/home', { scheme: 'myapp' }),
       })
  
-      if (createdSessionId) {
+      if (createdSessionId ) {
         router.push('/home')
       } else {
         // Use signIn or signUp for next steps such as MFA
@@ -55,7 +55,7 @@ export default function loginScreen() {
 
   return (
     <View style={styles.background}>
-      <Image source={require('../../assets/images/login.png')} 
+      <Image source={require('../../assets/images/react-logo.png')} 
     style={styles.loginScreen}
     />
       <View style={styles.loginTxtcheck}>

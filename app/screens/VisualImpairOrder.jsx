@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Image, FlatList, StyleSheet, Dimensions, TouchableOpacity, Modal } from 'react-native';
 import * as Speech from 'expo-speech'; // expo-speech 임포트
 import Icon from 'react-native-vector-icons/Ionicons'; 
@@ -22,17 +22,21 @@ const VisualImpairOrder = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [isPaymentScreen, setIsPaymentScreen] = useState(false);  // 결제 화면 상태
 
+  const currentProductRef = useRef(null); // 
+
   // 초반에 환영 메시지 출력
   useEffect(() => {
     Speech.speak('상품 선택입니다. 상품을 좌에서 우로 슬라이드하여 선택하세요.', { language: 'ko', rate: 1.0 });
     Speech.speak(`현재 선택된 상품은 ${currentProduct.name}입니다.`, { language: 'ko', rate: 1.0 });
   }, []);
 
-  // 슬라이드가 변경될 때 상품 이름 읽어줌
+  // 슬라이드가 변경될 때 상품 이름 읽어줌 -> 리랜더링 방지
   const handleSlideChange = (index) => {
     const product = products[index];
-    setCurrentProduct(product);
-    Speech.speak(`${product.name}`, { language: 'ko', rate: 1.0 });
+    if (currentProductRef.current?.id !== product.id) {
+      currentProductRef.current = product;
+      Speech.speak(`${product.name}`, { language: 'ko', rate: 1.0 });
+    }
   };
 
   // 증가 버튼 클릭
@@ -111,7 +115,7 @@ const VisualImpairOrder = () => {
     cart.forEach((item) => {
       totalAmount += item.price * item.quantity;
     });
-    const checkoutMessage = `결제를 승인하였습니다. 총액은 ${totalAmount}원입니다.`;
+    const checkoutMessage = `결제를 승인하였습니다. 총액은 ${totalAmount}원입니다. 결제화면입니다. 상단좌측은 신용카드 우측은 카카오페이 하단 좌측은 도움요청 우측은 뒤로가기입니다.`;
     Speech.speak(checkoutMessage, { language: 'ko', rate: 1.0 });
     //setCart([]); // 결제 후 카트 비우기
     setIsPaymentScreen(true);
@@ -128,7 +132,7 @@ const VisualImpairOrder = () => {
       style={styles.card}
       onPress={() => {
         Speech.speak(`${item.name}를 선택하셨습니다.`, { language: 'ko', rate: 1.0 });
-        Speech.speak(`개수 선택 화면입니다. 중앙기준 좌측은 감소 우측은 증가이며 살짝 아래에 확인버튼을 누르면 장바구니에 담겨집니다. 취소를 원하시면 감소 버튼을 한번 누르시면 됩니다. 현재 개수는 1개입니다.`, { language: 'ko', rate: 1.0 });
+        Speech.speak(`개수 선택 화면입니다. Kiosk 중앙에서 좌측은 감소 우측은 증가 아래는 확인버튼입니다. 취소를 원하시면 감소버튼을 눌러 0으로 취소하시면 됩니다. 현재 개수는 1개입니다.`, { language: 'ko', rate: 1.0 });
         setQuantity(1); // 초기 개수 설정
         setModalVisible(true); // 모달 표시
       }}
@@ -200,6 +204,7 @@ const VisualImpairOrder = () => {
         keyExtractor={(item) => item.id}
         horizontal
         pagingEnabled
+        
         renderItem={renderItem}
         onMomentumScrollEnd={(event) => {
           const index = Math.round(event.nativeEvent.contentOffset.x / width);

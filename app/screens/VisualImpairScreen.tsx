@@ -10,7 +10,7 @@ export default function VisualImpairScreen() {
   // 화면 진입 시 자동으로 음성 출력
   useEffect(() => {
     if (!hasSpoken) { // 첫 화면 진입 시만 음성 출력
-      Speech.speak('먹고가기 / 포장하기를 선택하세요. 먹고가기는 상단, 포장하기는 하단입니다.', {
+      Speech.speak('먹고가기 포장하기를 선택하세요. 먹고가기는 상단, 포장하기는 하단입니다.', {
         language: 'ko', // 한국어로 설정
       });
       setHasSpoken(true); // 음성을 출력한 후 상태 변경

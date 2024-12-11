@@ -47,6 +47,7 @@ useFonts({
     <Stack>
       <Stack.Screen name='index'/>
       <Stack.Screen name='login/index'/>
+      <Stack.Screen name='home'/>
       
 
     </Stack>
